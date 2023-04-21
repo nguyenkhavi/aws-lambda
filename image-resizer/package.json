@@ -1,0 +1,19 @@
+{
+  "name": "image-resizer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "package": "npm ci --arch=x64 --platform=linux --target=16x && zip -r function.zip . -x ./README.md ./package*.json ./.env && npm ci",
+    "deploy": "npm run package && aws lambda update-function-code --function-name image-resizer --zip-file fileb://./function.zip && npm run pre-deploy",
+    "pre-deploy": "rm -rf function.zip",
+    "start": "env-cmd node index"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.315.0",
+    "@aws-sdk/lib-storage": "^3.315.0",
+    "sharp": "^0.32.0"
+  }
+}
